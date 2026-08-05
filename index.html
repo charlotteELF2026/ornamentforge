@@ -6,6 +6,8 @@
 <title>Ornament Forge — Custom Logo Ornaments &amp; Medallions</title>
 <meta name="description" content="Send us your logo and we forge it into a full-color 3D-printed ornament or medallion. Printed to order in Waxhaw, North Carolina." />
 <link rel="icon" href="logo.png" />
+<!-- BUILD: 2026-08-05 · hero-cutouts-v4 · transparent PNG heroes on the sliding carousel -->
+<meta name="of-build" content="2026-08-05 hero-cutouts-v4" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Karla:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -74,17 +76,24 @@
   /* ---------- signature: the layer stack ---------- */
   .stackwrap{position:relative;display:grid;place-items:center;padding:26px 0 8px}
   .stack{position:relative;width:min(100%,384px);aspect-ratio:1}
+  /* Slabs track the medallion BODY, not the full square. Hero art is
+     normalised: disc = 88% of frame, bottom-flush, tab in the top 12%. */
   .slab{
-    position:absolute;inset:0;border-radius:50%;
+    position:absolute;inset:18.2% 10.5% 2.8% 10.5%;border-radius:50%;
     transition:transform .5s cubic-bezier(.2,.8,.25,1);
   }
   .stack .s1{background:var(--blue)}
   .stack .s2{background:var(--copper)}
   .stack .s3{background:var(--steel)}
   .stack .s4{background:var(--bone)}
-  .stack img{position:relative;width:100%;height:100%;display:block;z-index:5;
-    border-radius:50%;object-fit:cover;background:var(--panel);
-    transition:opacity .5s ease}
+  /* overflow:hidden stays — it is what keeps the slide inside the frame.
+     The circular mask and panel fill are gone; the art is already a
+     transparent cut-out, so nothing needs clipping to a circle. */
+  .heroFrame{position:relative;width:100%;height:100%;z-index:5;
+    overflow:hidden;background:transparent}
+  .heroFrame img{position:absolute;inset:0;width:100%;height:100%;
+    display:block;object-fit:contain;
+    transition:transform .6s cubic-bezier(.65,0,.35,1)}
   /* resting: layers peek out below-right. hover: they fan apart */
   .stack .s1{transform:translate(30px,30px)}
   .stack .s2{transform:translate(22px,22px)}
@@ -110,7 +119,7 @@
   #shop{display:none}
   .shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:14px;padding-bottom:56px}
   .shot{border:1px solid var(--line);background:var(--panel)}
-  .shot img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+  .shot img{width:100%;aspect-ratio:1;object-fit:contain;display:block;background:var(--panel)}
   .shot .cap{padding:11px 13px}
   .shot .cap b{display:block;font-family:var(--body);font-weight:700;font-size:14.5px}
   .shot .cap span{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;color:var(--steel);text-transform:uppercase}
@@ -331,7 +340,10 @@
         <div class="slab s2"></div>
         <div class="slab s3"></div>
         <div class="slab s4"></div>
-        <img id="heroImg" src="img/img/hero-1.jpg" alt="A finished Ornament Forge medallion" />
+        <div class="heroFrame" id="heroFrame">
+          <img id="heroImgA" src="img/blowing-rock-nc.png" alt="A finished Ornament Forge medallion" />
+          <img id="heroImgB" src="img/charlotte-nc.png" alt="A finished Ornament Forge medallion" />
+        </div>
       </div>
     </div>
   </section>
@@ -342,7 +354,7 @@
        page, then add a line to the SHOTS array in the script at the
        bottom, e.g.
            { src:'img/tweetsie.jpg', name:'Tweetsie Railroad',
-             meta:'3" ornament · 10 colors' },
+             meta:'3″ ornament · 10 colors' },
        The section appears on its own once the array has entries.
        ============================================================ -->
   <section class="band" id="shop">
@@ -525,50 +537,40 @@
   var SB_KEY = "sb_publishable_XXDZiNl-O3MrI2-noLkc7g_H69TGNA2";
   var BUCKET = "order-logos";
   var LOGO   = "logo.png";
-  // Email alerts via Web3Forms — Pro plan. Paste the access key they
-  // email you between the quotes. Until then the page skips the alert —
-  // orders still save to Supabase.
-  //
-  // One-time setup in the Web3Forms dashboard for this access key:
-  //   1. Turn on "Autoresponder / Auto-Reply" and build the customer's
-  //      confirmation template. Web3Forms auto-detects the field named
-  //      "email" below as the send-to address for the autoresponder.
-  //   2. File attachments work automatically with the multipart request
-  //      below — no dashboard toggle needed, just an active Pro plan.
+  // Email alerts via Web3Forms Pro. Handles the order alert to
+  // order@ornamentforge.com (with the logo attached) and the
+  // customer autoresponder, both configured on the Web3Forms side.
   var W3F_KEY = "79179e05-e528-440f-9e10-bb499f06161a";
-
-  // Web3Forms' file attachment cap is 5 MB even on Pro (their "Advanced
-  // File Uploader" is needed to go higher, and we haven't wired that up).
-  // The order page itself accepts up to 20 MB, so anything over 5 MB
-  // skips the attachment and falls back to the Supabase link below —
-  // staff still get a working link either way.
   var W3F_ATTACH_MAX = 5 * 1024 * 1024;
-
   var $ = function(id){ return document.getElementById(id); };
 
-  /* ---- hero photo rotation. Cross-fades through real finished prints
-     instead of a static logo. Add or remove entries here — the img
-     files live in the img/img/ folder next to this page. ---- */
+  /* ---- hero photo rotation: real finished prints, sliding left ---- */
   var HERO_SHOTS = [
-    "img/img/hero-1.jpg",
-    "img/img/hero-2.jpg",
-    "img/img/hero-3.jpg",
-    "img/img/hero-4.jpg",
-    "img/img/hero-5.jpg",
-    "img/img/hero-6.jpg"
+    "img/blowing-rock-nc.png","img/charlotte-nc.png",
+    "img/colorado-christmas-lights.png","img/tweetsie-railroad.png",
+    "img/tweetsie-wreath.png","img/waxhaw-nc.png","img/romiri-design.png"
   ];
   (function heroCycle(){
-    var img = $("heroImg");
-    if(!img || HERO_SHOTS.length < 2) return;
-    HERO_SHOTS.forEach(function(src){ (new Image()).src = src; }); // preload, avoids a flash on swap
-    var i = 0;
+    var a = $("heroImgA"), b = $("heroImgB");
+    if(!a || !b || HERO_SHOTS.length < 2) return;
+    HERO_SHOTS.forEach(function(src){ (new Image()).src = src; });
+
+    var i = 0, front = a, back = b;
+    // park the second image off to the right, ready to slide in
+    back.style.transition = "none";
+    back.style.transform = "translateX(100%)";
+
     setInterval(function(){
       i = (i + 1) % HERO_SHOTS.length;
-      img.style.opacity = 0;
-      setTimeout(function(){
-        img.src = HERO_SHOTS[i];
-        img.style.opacity = 1;
-      }, 500);
+      back.src = HERO_SHOTS[i];
+      back.style.transition = "none";
+      back.style.transform = "translateX(100%)";
+      void back.offsetWidth;                 // force reflow before animating
+      front.style.transition = "transform .6s cubic-bezier(.65,0,.35,1)";
+      back.style.transition  = "transform .6s cubic-bezier(.65,0,.35,1)";
+      front.style.transform = "translateX(-100%)";
+      back.style.transform  = "translateX(0)";
+      var tmp = front; front = back; back = tmp;
     }, 4000);
   })();
 
@@ -1011,40 +1013,28 @@
       if(!res.ok) return res.text().then(function(t){ throw new Error("Could not save the order. "+t); });
       receipt = receiptText(r);
 
-      // Public link to the uploaded photo — a fallback for files over
-      // Web3Forms' 5 MB attachment cap. Requires the "order-logos" bucket
-      // to have public read access turned on (Supabase Studio > Storage >
-      // order-logos > toggle "Public bucket"). The path itself is
-      // unguessable (random order ref), so this doesn't expose a
-      // directory listing of every customer's file.
-      var photoUrl = SB_URL + "/storage/v1/object/public/" + BUCKET + "/" + encodeURI(path);
-
-      // Email via Web3Forms (Pro plan). Deliberately fire-and-forget and
-      // AFTER the order is safely stored: if the alert service is down or
-      // over its monthly quota, the order is still saved either way.
-      //
-      // Sent as multipart/form-data (not JSON) so the actual logo file can
-      // ride along as a real attachment — this is what makes attachments
-      // work at all; Web3Forms silently can't attach anything from a JSON
-      // body. The "email" field below is also what triggers their
-      // Autoresponder to confirm the order with the customer, once that's
-      // turned on for this access key in the Web3Forms dashboard.
+      // Email alert via Web3Forms Pro. Deliberately fire-and-forget and AFTER
+      // the order is safely stored: if the alert service is down or over its
+      // monthly quota, the customer still gets a confirmation and the order
+      // is not lost. Sent as multipart/form-data so the logo goes along as
+      // a real attachment, not just a link.
       if(W3F_KEY.indexOf("YOUR_ACCESS_KEY") === -1){
         var s2 = size(), bd2 = BANDS[st.band];
+        var photoUrl = SB_URL + "/storage/v1/object/public/" + BUCKET + "/" + encodeURI(path);
         var fd = new FormData();
         fd.append("access_key", W3F_KEY);
         fd.append("subject", "Ornament Forge order " + r + " — " + $("name").value.trim());
         fd.append("from_name", "Ornament Forge orders");
-        fd.append("name", $("name").value.trim());          // used by the autoresponder template
-        fd.append("email", $("email").value.trim());        // triggers the autoresponder to the customer
-        fd.append("replyto", $("email").value.trim());      // staff replies go to the customer
+        fd.append("name", $("name").value.trim());
+        fd.append("email", $("email").value.trim());
+        fd.append("replyto", $("email").value.trim());
         fd.append("order", r);
         fd.append("item", P[st.prod].name + " " + s2.i + '" x' + st.qty);
         fd.append("colors", bd2.label + (st.prep ? "  + ARTWORK PREP ($45)" : ""));
         fd.append("total", "$" + ((s2.p + bd2.add) * st.qty + (st.prep ? PREP_FEE : 0)) + " before shipping");
         fd.append("ship_to", $("name").value.trim() + ", " + $("street").value.trim() + ", " +
-                   $("city").value.trim() + " " + $("state").value.trim().toUpperCase() +
-                   " " + $("zip").value.trim());
+                      $("city").value.trim() + " " + $("state").value.trim().toUpperCase() +
+                      " " + $("zip").value.trim());
         fd.append("phone", $("phone").value.trim());
         fd.append("carrier", $("carrier").value);
         fd.append("logo_file", st.file.name);
@@ -1055,9 +1045,6 @@
         } else {
           fd.append("attachment_note", "Logo is over the 5 MB attachment limit — use the photo_link above.");
         }
-        // No Content-Type header here on purpose: the browser sets the
-        // correct multipart boundary itself. Setting it manually breaks
-        // the upload (per Web3Forms' own docs).
         fetch("https://api.web3forms.com/submit", {
           method:"POST",
           headers:{ Accept:"application/json" },
