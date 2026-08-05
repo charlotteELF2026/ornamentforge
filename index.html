@@ -6,8 +6,8 @@
 <title>Ornament Forge — Custom Logo Ornaments &amp; Medallions</title>
 <meta name="description" content="Send us your logo and we forge it into a full-color 3D-printed ornament or medallion. Printed to order in Waxhaw, North Carolina." />
 <link rel="icon" href="logo.png" />
-<!-- BUILD: 2026-08-05 · hero-cutouts-v5-contact · transparent PNG heroes on the sliding carousel -->
-<meta name="of-build" content="2026-08-05 hero-cutouts-v5-contact" />
+<!-- BUILD: 2026-08-05 · hero-v7-no-exposed-email · transparent PNG heroes on the sliding carousel -->
+<meta name="of-build" content="2026-08-05 hero-v7-no-exposed-email" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Karla:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -404,7 +404,7 @@
       <div class="rcpt" id="rcpt"></div>
       <div class="acts">
         <button class="ghost" id="copyBtn">Copy order details</button>
-        <button class="ghost" id="mailBtn">Open in email</button>
+        <button class="ghost" id="mailBtn">Email me a copy</button>
         <button class="ghost" id="againBtn">Start another order</button>
       </div>
     </div>
@@ -615,9 +615,10 @@
   var SB_KEY = "sb_publishable_XXDZiNl-O3MrI2-noLkc7g_H69TGNA2";
   var BUCKET = "order-logos";
   var LOGO   = "logo.png";
-  // Email alerts via Web3Forms Pro. Handles the order alert to
-  // order@ornamentforge.com (with the logo attached) and the
-  // customer autoresponder, both configured on the Web3Forms side.
+  // Email alerts via Web3Forms Pro. Handles the shop's order alert
+  // (with the logo attached) and the customer autoresponder, both
+  // configured on the Web3Forms side. No address is written here —
+  // it's set in the Web3Forms dashboard, not in this public file.
   var W3F_KEY = "79179e05-e528-440f-9e10-bb499f06161a";
   var W3F_ATTACH_MAX = 5 * 1024 * 1024;
   var $ = function(id){ return document.getElementById(id); };
@@ -1097,7 +1098,65 @@
     return L.join("\n");
   }
 
+  /* ---- Order submit ------------------------------------------------
+     Two independent places an order can land: Supabase (storage + row)
+     and the Web3Forms email. They are attempted in that order but the
+     email ALWAYS fires, even if Supabase is unreachable or paused —
+     a free-tier Supabase project sleeps after 7 idle days, and an order
+     that vanishes silently is far worse than one that only arrives by
+     email. The customer only sees an error if BOTH routes fail.
+  -------------------------------------------------------------------- */
   var receipt = "";
+
+  function sendAlert(r, path, uploaded, saved, upErr, dbErr){
+    if(W3F_KEY.indexOf("YOUR_ACCESS_KEY") !== -1) return Promise.resolve(false);
+
+    var s2 = size(), bd2 = BANDS[st.band];
+    var fd = new FormData();
+    fd.append("access_key", W3F_KEY);
+    fd.append("subject", (saved ? "Ornament Forge order " : "ACTION NEEDED — unsaved order ")
+                         + r + " — " + $("name").value.trim());
+    fd.append("from_name", "Ornament Forge orders");
+    fd.append("name",    $("name").value.trim());
+    fd.append("email",   $("email").value.trim());
+    fd.append("replyto", $("email").value.trim());
+    fd.append("order", r);
+    fd.append("item", P[st.prod].name + " " + s2.i + '" x' + st.qty);
+    fd.append("colors", bd2.label + (st.prep ? "  + ARTWORK PREP ($45)" : ""));
+    fd.append("total", "$" + ((s2.p + bd2.add) * st.qty + (st.prep ? PREP_FEE : 0)) + " before shipping");
+    fd.append("ship_to", $("name").value.trim() + ", " + $("street").value.trim() + ", " +
+                  $("city").value.trim() + " " + $("state").value.trim().toUpperCase() +
+                  " " + $("zip").value.trim());
+    fd.append("phone",   $("phone").value.trim());
+    fd.append("carrier", $("carrier").value);
+    fd.append("logo_file", st.file.name);
+    fd.append("details", receipt);
+
+    // Storage status. If the upload worked the link is live; if not, the
+    // attachment below is the only copy of the artwork, so say so loudly.
+    if(uploaded){
+      fd.append("photo_link", SB_URL + "/storage/v1/object/public/" + BUCKET + "/" + encodeURI(path));
+    } else {
+      fd.append("photo_link", "NOT UPLOADED — " + (upErr || "storage unavailable"));
+    }
+    if(!saved){
+      fd.append("database", "NOT SAVED — " + (dbErr || "database unavailable") +
+        "  |  This order exists only in this email. Copy it somewhere safe, then check " +
+        "whether the Supabase project is paused.");
+    }
+    if(st.file.size <= W3F_ATTACH_MAX){
+      fd.append("attachment", st.file, st.file.name);
+    } else {
+      fd.append("attachment_note", uploaded
+        ? "Logo is over the 5 MB attachment limit — use the photo_link above."
+        : "Logo is over the 5 MB attachment limit AND the upload failed. Ask the customer to resend it.");
+    }
+
+    return fetch("https://api.web3forms.com/submit", {
+      method:"POST", headers:{ Accept:"application/json" }, body: fd
+    }).then(function(res){ return res.ok; }, function(){ return false; });
+  }
+
   $("send").onclick = function(){
     if($("website").value) return;                 // honeypot
     var bad = check();
@@ -1111,93 +1170,73 @@
     var safe = st.file.name.replace(/[^A-Za-z0-9._-]/g,"_").slice(-80);
     var path = r + "/" + safe;
 
-    fetch(SB_URL + "/storage/v1/object/" + BUCKET + "/" + encodeURI(path), {
-      method:"POST",
-      headers: hdr({ "Content-Type": st.file.type || "application/octet-stream", "x-upsert":"false" }),
-      body: st.file
-    })
-    .then(function(res){
-      if(!res.ok) return res.text().then(function(t){ throw new Error("Logo upload failed. "+t); });
-      return fetch(SB_URL + "/rest/v1/orders", {
-        method:"POST",
-        headers: hdr({ "Content-Type":"application/json", Prefer:"return=minimal" }),
-        body: JSON.stringify({
-          order_ref:       r,
-          product:         st.prod,
-          size_in:         s.i,
-          qty:             st.qty,
-          color_band:      BANDS[st.band].id,
-          detected_colors: st.detected ? st.detected.count : null,
-          artwork_prep:    st.prep,
-          logo_path:       path,
-          logo_name:       st.file.name,
-          customer_name:   $("name").value.trim(),
-          street:          $("street").value.trim(),
-          city:            $("city").value.trim(),
-          state:           $("state").value.trim().toUpperCase(),
-          zip:             $("zip").value.trim(),
-          phone:           $("phone").value.trim(),
-          email:           $("email").value.trim(),
-          carrier:         $("carrier").value,
-          notes:           $("notes").value.trim() || null
-        })
-      });
-    })
-    .then(function(res){
-      if(!res.ok) return res.text().then(function(t){ throw new Error("Could not save the order. "+t); });
-      receipt = receiptText(r);
+    receipt = receiptText(r);   // built up front so the email has it either way
 
-      // Email alert via Web3Forms Pro. Deliberately fire-and-forget and AFTER
-      // the order is safely stored: if the alert service is down or over its
-      // monthly quota, the customer still gets a confirmation and the order
-      // is not lost. Sent as multipart/form-data so the logo goes along as
-      // a real attachment, not just a link.
-      if(W3F_KEY.indexOf("YOUR_ACCESS_KEY") === -1){
-        var s2 = size(), bd2 = BANDS[st.band];
-        var photoUrl = SB_URL + "/storage/v1/object/public/" + BUCKET + "/" + encodeURI(path);
-        var fd = new FormData();
-        fd.append("access_key", W3F_KEY);
-        fd.append("subject", "Ornament Forge order " + r + " — " + $("name").value.trim());
-        fd.append("from_name", "Ornament Forge orders");
-        fd.append("name", $("name").value.trim());
-        fd.append("email", $("email").value.trim());
-        fd.append("replyto", $("email").value.trim());
-        fd.append("order", r);
-        fd.append("item", P[st.prod].name + " " + s2.i + '" x' + st.qty);
-        fd.append("colors", bd2.label + (st.prep ? "  + ARTWORK PREP ($45)" : ""));
-        fd.append("total", "$" + ((s2.p + bd2.add) * st.qty + (st.prep ? PREP_FEE : 0)) + " before shipping");
-        fd.append("ship_to", $("name").value.trim() + ", " + $("street").value.trim() + ", " +
-                      $("city").value.trim() + " " + $("state").value.trim().toUpperCase() +
-                      " " + $("zip").value.trim());
-        fd.append("phone", $("phone").value.trim());
-        fd.append("carrier", $("carrier").value);
-        fd.append("logo_file", st.file.name);
-        fd.append("photo_link", photoUrl);
-        fd.append("details", receipt);
-        if(st.file.size <= W3F_ATTACH_MAX){
-          fd.append("attachment", st.file, st.file.name);
-        } else {
-          fd.append("attachment_note", "Logo is over the 5 MB attachment limit — use the photo_link above.");
-        }
-        fetch("https://api.web3forms.com/submit", {
+    var uploaded = false, saved = false, upErr = "", dbErr = "";
+    var short = function(e){ return String((e && e.message) || e || "").slice(0,300); };
+
+    Promise.resolve()
+      .then(function(){
+        return fetch(SB_URL + "/storage/v1/object/" + BUCKET + "/" + encodeURI(path), {
           method:"POST",
-          headers:{ Accept:"application/json" },
-          body: fd
-        }).catch(function(){ /* alert failed; the order is already saved */ });
-      }
-
-      $("rcpt").textContent = receipt;
-      $("form").style.display = "none";
-      $("aside").style.display = "none";
-      $("done").classList.add("on");
-      $("done").scrollIntoView({behavior:"smooth",block:"start"});
-    })
-    .catch(function(e){
-      $("err").textContent = e.message +
-        " Nothing was charged. Try again, or email order@ornamentforge.com and we'll take it from there.";
-      $("err").scrollIntoView({behavior:"smooth",block:"center"});
-      btn.disabled = false; btn.textContent = "Send my order";
-    });
+          headers: hdr({ "Content-Type": st.file.type || "application/octet-stream", "x-upsert":"false" }),
+          body: st.file
+        }).then(function(res){
+          if(!res.ok) return res.text().then(function(t){ throw new Error(t); });
+          uploaded = true;
+        });
+      })
+      .catch(function(e){ upErr = short(e); })
+      .then(function(){
+        return fetch(SB_URL + "/rest/v1/orders", {
+          method:"POST",
+          headers: hdr({ "Content-Type":"application/json", Prefer:"return=minimal" }),
+          body: JSON.stringify({
+            order_ref:       r,
+            product:         st.prod,
+            size_in:         s.i,
+            qty:             st.qty,
+            color_band:      BANDS[st.band].id,
+            detected_colors: st.detected ? st.detected.count : null,
+            artwork_prep:    st.prep,
+            logo_path:       uploaded ? path : null,
+            logo_name:       st.file.name,
+            customer_name:   $("name").value.trim(),
+            street:          $("street").value.trim(),
+            city:            $("city").value.trim(),
+            state:           $("state").value.trim().toUpperCase(),
+            zip:             $("zip").value.trim(),
+            phone:           $("phone").value.trim(),
+            email:           $("email").value.trim(),
+            carrier:         $("carrier").value,
+            notes:           $("notes").value.trim() || null
+          })
+        }).then(function(res){
+          if(!res.ok) return res.text().then(function(t){ throw new Error(t); });
+          saved = true;
+        });
+      })
+      .catch(function(e){ dbErr = short(e); })
+      .then(function(){
+        return sendAlert(r, path, uploaded, saved, upErr, dbErr);
+      })
+      .then(function(emailed){
+        // Order is captured if EITHER the database row or the email landed.
+        if(!saved && !emailed){
+          throw new Error("We couldn't reach our order system.");
+        }
+        $("rcpt").textContent = receipt;
+        $("form").style.display = "none";
+        $("aside").style.display = "none";
+        $("done").classList.add("on");
+        $("done").scrollIntoView({behavior:"smooth",block:"start"});
+      })
+      .catch(function(e){
+        $("err").textContent = short(e) +
+          " Nothing was charged. Please try again in a moment, or use the contact form below and we'll take it from there.";
+        $("err").scrollIntoView({behavior:"smooth",block:"center"});
+        btn.disabled = false; btn.textContent = "Send my order";
+      });
   };
 
   $("copyBtn").onclick = function(){
@@ -1208,9 +1247,14 @@
     }, function(){ b.textContent = "Copy failed"; });
   };
   $("mailBtn").onclick = function(){
-    window.location.href = "mailto:order@ornamentforge.com?subject=" +
-      encodeURIComponent("New Ornament Forge order") + "&body=" +
-      encodeURIComponent(receipt + "\n\n(Attach your logo file to this email.)");
+    // We already have this order (saved to the database, or emailed to
+    // the shop as a fallback — see the submit handler above). This
+    // button is for the customer's own records, so it addresses their
+    // own inbox, not ours. Keeps no shop address in the page source.
+    var to = $("email").value.trim();
+    window.location.href = "mailto:" + to + "?subject=" +
+      encodeURIComponent("Your Ornament Forge order") + "&body=" +
+      encodeURIComponent(receipt);
   };
   $("againBtn").onclick = function(){
     $("done").classList.remove("on");
