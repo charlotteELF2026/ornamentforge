@@ -44,3 +44,1034 @@
   .mono{font-family:var(--mono)}
 
   /* ---------- header ---------- */
+  .top{position:sticky;top:0;z-index:40;background:var(--ink);border-bottom:1px solid var(--line)}
+  .topin{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:11px 0}
+  .lockup{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+  .lockup img{width:42px;height:42px;display:block}
+  .lockup b{font-family:var(--disp);font-size:17px;letter-spacing:.01em;display:block;line-height:1.1}
+  .lockup span{font-family:var(--mono);font-size:9.5px;letter-spacing:.26em;color:var(--steel);text-transform:uppercase}
+  .toplink{
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink);background:var(--copper);text-decoration:none;padding:10px 16px;
+    border:1px solid var(--copper);
+  }
+  .toplink:hover{background:var(--bone);border-color:var(--bone)}
+
+  /* ---------- hero ---------- */
+  .hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;
+    align-items:center;padding:74px 0 66px}
+  .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--copper);margin:0 0 20px}
+  h1{font-size:clamp(38px,5.4vw,62px);line-height:1.02}
+  h1 .ln2{display:block;color:var(--copper)}
+  .sub{font-size:17.5px;color:#B9B5AD;max-width:40ch;margin:20px 0 26px}
+  .facts{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line)}
+  .fact{padding:12px 16px;border-right:1px solid var(--line);flex:1;min-width:104px}
+  .fact:last-child{border-right:none}
+  .fact b{display:block;font-family:var(--disp);font-size:19px;line-height:1.1}
+  .fact span{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--steel)}
+
+  /* ---------- signature: the layer stack ---------- */
+  .stackwrap{position:relative;display:grid;place-items:center;padding:26px 0 8px}
+  .stack{position:relative;width:min(100%,384px);aspect-ratio:1}
+  .slab{
+    position:absolute;inset:0;border-radius:50%;
+    transition:transform .5s cubic-bezier(.2,.8,.25,1);
+  }
+  .stack .s1{background:var(--blue)}
+  .stack .s2{background:var(--copper)}
+  .stack .s3{background:var(--steel)}
+  .stack .s4{background:var(--bone)}
+  .stack img{position:relative;width:100%;height:100%;display:block;z-index:5}
+  /* resting: layers peek out below-right. hover: they fan apart */
+  .stack .s1{transform:translate(30px,30px)}
+  .stack .s2{transform:translate(22px,22px)}
+  .stack .s3{transform:translate(14px,14px)}
+  .stack .s4{transform:translate(7px,7px)}
+  .stack:hover .s1{transform:translate(62px,62px)}
+  .stack:hover .s2{transform:translate(45px,45px)}
+  .stack:hover .s3{transform:translate(28px,28px)}
+  .stack:hover .s4{transform:translate(13px,13px)}
+  .stackcap{
+    font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--steel);
+    text-align:center;margin-top:26px;text-transform:uppercase;
+  }
+  .stackcap b{color:var(--copper);font-weight:500}
+
+  /* ---------- section frame ---------- */
+  .band{border-top:1px solid var(--line)}
+  .sechead{display:flex;align-items:baseline;gap:14px;padding:44px 0 22px}
+  .sechead h2{font-size:clamp(24px,3.2vw,34px)}
+  .sechead .num{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--copper)}
+
+  /* ---------- gallery (hidden until photos exist) ---------- */
+  #shop{display:none}
+  .shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:14px;padding-bottom:56px}
+  .shot{border:1px solid var(--line);background:var(--panel)}
+  .shot img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+  .shot .cap{padding:11px 13px}
+  .shot .cap b{display:block;font-family:var(--body);font-weight:700;font-size:14.5px}
+  .shot .cap span{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;color:var(--steel);text-transform:uppercase}
+
+  /* ---------- order layout ---------- */
+  .order{display:grid;grid-template-columns:minmax(0,1fr) 342px;gap:24px;
+    align-items:start;padding-bottom:84px}
+  .card{border:1px solid var(--line);background:var(--panel);padding:24px;margin-bottom:16px}
+  .ch{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+  .ch .n{font-family:var(--mono);font-size:11px;color:var(--ink);background:var(--steel);padding:2px 7px}
+  .ch h3{font-size:19px}
+  .lede{font-size:14px;color:#9D9992;margin:0 0 18px}
+
+  /* upload */
+  .drop{border:1px dashed var(--line-hi);padding:34px 20px;text-align:center;cursor:pointer;
+    background:var(--field);transition:border-color .15s,background .15s}
+  .drop:hover,.drop.over{border-color:var(--copper);background:#22201C}
+  .drop b{font-family:var(--disp);font-size:17px;display:block}
+  .drop span{font-family:var(--mono);font-size:11.5px;color:var(--steel);display:block;margin-top:7px}
+  .got{display:none;align-items:center;gap:14px;margin-top:14px;border:1px solid var(--line);padding:11px}
+  .got.on{display:flex}
+  .got img{width:60px;height:60px;object-fit:contain;background:var(--ink);border:1px solid var(--line)}
+  .got .meta{min-width:0;font-size:13.5px}
+  .got .meta b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:190px}
+  .got .meta span{font-family:var(--mono);font-size:11px;color:var(--steel)}
+  .plain{background:none;border:none;color:var(--copper);cursor:pointer;font-family:var(--body);
+    font-size:13px;margin-left:auto;padding:0;text-decoration:underline}
+
+  /* product + size */
+  .kinds{display:flex;gap:10px;margin-bottom:16px}
+  .kind{flex:1;border:1px solid var(--line);background:var(--field);color:var(--steel);
+    padding:13px 10px;cursor:pointer;text-align:left;font-family:var(--body);transition:.15s}
+  .kind b{display:block;font-family:var(--disp);font-size:16px;color:var(--bone)}
+  .kind span{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--steel)}
+  .kind[aria-pressed=true]{background:var(--blue);border-color:var(--blue-hi)}
+  .kind[aria-pressed=true] span{color:#CFE0F5}
+  .sizes{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:9px}
+  .sz{border:1px solid var(--line);background:var(--field);padding:13px 6px;text-align:center;
+    cursor:pointer;transition:.15s;font-family:var(--body);color:var(--bone)}
+  .sz:hover{border-color:var(--line-hi)}
+  .sz[aria-pressed=true]{border-color:var(--copper);background:#22201C}
+  .sz .i{font-family:var(--disp);font-size:23px;line-height:1;display:block;color:var(--bone)}
+  .sz .b{font-family:var(--mono);font-size:10px;color:var(--steel);display:block;margin:5px 0 6px}
+  .sz .p{font-family:var(--mono);font-size:13px;color:var(--copper);display:block;font-weight:600}
+
+  /* colors */
+  .detected{border:1px solid var(--line);background:var(--field);padding:12px 14px;margin-bottom:14px;
+    font-family:var(--mono);font-size:12px;color:var(--steel);display:flex;gap:10px;align-items:center;
+    flex-wrap:wrap}
+  .detected b{color:var(--bone);font-weight:500}
+  .swatches{display:flex;gap:4px;margin-left:auto}
+  .swatches i{width:15px;height:15px;display:block;border:1px solid var(--line-hi)}
+  .bands{display:grid;grid-template-columns:repeat(auto-fill,minmax(126px,1fr));gap:9px}
+  .bnd{border:1px solid var(--line);background:var(--field);padding:12px 10px;cursor:pointer;
+    text-align:left;font-family:var(--body);color:var(--bone);transition:.15s}
+  .bnd:hover{border-color:var(--line-hi)}
+  .bnd[aria-pressed=true]{border-color:var(--copper);background:#22201C}
+  .bnd b{display:block;font-family:var(--disp);font-size:14.5px;color:var(--bone)}
+  .bnd span{font-family:var(--mono);font-size:11px;color:var(--copper);display:block;margin-top:3px}
+  .bnd.auto::after{content:"detected";font-family:var(--mono);font-size:9px;letter-spacing:.12em;
+    color:var(--steel);text-transform:uppercase;display:block;margin-top:6px}
+
+  .prep{border:1px solid var(--line);background:var(--field);padding:16px;margin-top:16px;
+    display:flex;gap:13px;align-items:flex-start;cursor:pointer}
+  .prep.on{border-color:var(--copper);background:#22201C}
+  .prep input{margin:3px 0 0;accent-color:var(--copper);width:17px;height:17px;flex-shrink:0}
+  .prep .t{font-size:14px}
+  .prep .t b{display:block;font-family:var(--body);font-weight:700;margin-bottom:3px}
+  .prep .t span{color:#9D9992;font-size:13.5px}
+  .prep .fee{margin-left:auto;font-family:var(--mono);color:var(--copper);font-size:15px;flex-shrink:0}
+  .prepnote{font-size:13px;color:var(--copper);margin:12px 0 0;font-family:var(--mono);line-height:1.5}
+
+  /* fields */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .fld{display:flex;flex-direction:column;gap:6px}
+  .fld.wide{grid-column:1/-1}
+  .trio{display:grid;grid-template-columns:2fr 1fr 1.2fr;gap:14px;grid-column:1/-1}
+  .fld label{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--steel)}
+  .fld label i{color:var(--warn);font-style:normal}
+  .fld input,.fld select,.fld textarea{
+    background:var(--field);border:1px solid var(--line);padding:12px;color:var(--bone);
+    font-family:var(--body);font-size:15px;border-radius:0;
+  }
+  .fld select{
+    appearance:none;-webkit-appearance:none;-moz-appearance:none;
+    padding-right:38px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23E8E4DC' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 14px center;
+  }
+  .fld select option{background:var(--field);color:var(--bone)}
+  .fld input:focus,.fld select:focus,.fld textarea:focus{outline:none;border-color:var(--copper)}
+  .fld textarea{resize:vertical;min-height:72px}
+  .err{color:var(--warn);font-size:13px;margin:14px 0 0;min-height:0}
+
+  /* summary */
+  .sum{border:1px solid var(--line-hi);background:var(--panel);position:sticky;top:76px}
+  .sum .hd{padding:18px 20px 0}
+  .sum h3{font-size:18px}
+  .sum .hd p{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--steel);margin:4px 0 0}
+  .rows{padding:16px 20px 0}
+  .row{display:flex;justify-content:space-between;gap:12px;font-size:14px;padding:9px 0;
+    border-bottom:1px solid var(--line)}
+  .row.off{display:none}
+  .row span{color:#9D9992}
+  .row b{font-family:var(--mono);font-weight:500}
+  .row.free b{color:var(--steel)}
+  .tot{display:flex;justify-content:space-between;align-items:baseline;padding:16px 20px 0}
+  .tot span{font-family:var(--disp);font-size:15px}
+  .tot b{font-family:var(--mono);font-size:30px;color:var(--copper);font-weight:600}
+  .disc{padding:8px 20px 0;font-size:12.5px;color:#8E8A83;line-height:1.5}
+  .disc b{color:var(--bone)}
+  .go{display:block;width:100%;border:none;background:var(--copper);color:var(--ink);
+    font-family:var(--disp);font-size:16px;padding:16px;cursor:pointer;margin-top:16px;
+    transition:background .15s}
+  .go:hover{background:var(--bone)}
+  .go:disabled{background:var(--line-hi);color:var(--steel);cursor:not-allowed}
+
+  /* confirmation */
+  .done{display:none;border:1px solid var(--copper);background:var(--panel);padding:26px;margin-bottom:16px}
+  .done.on{display:block}
+  .done h2{font-size:27px;margin-bottom:5px}
+  .done .st{font-family:var(--mono);color:var(--ok);font-size:12.5px;margin:0 0 20px}
+  .steps{list-style:none;counter-reset:s;padding:0;margin:0 0 20px}
+  .steps li{counter-increment:s;position:relative;padding-left:34px;margin-bottom:13px;
+    font-size:14.5px;color:#B9B5AD}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:22px;height:22px;
+    background:var(--line);color:var(--bone);display:grid;place-items:center;
+    font-family:var(--mono);font-size:11px}
+  .steps b{color:var(--bone)}
+  .paynote{border-left:3px solid var(--copper);background:#22201C;padding:14px 16px;margin-bottom:20px}
+  .paynote b{color:var(--copper)}
+  .paynote p{margin:0;font-size:13.5px;color:#B9B5AD}
+  .paynote h4{font-family:var(--disp);font-size:15px;margin:0 0 5px}
+  .rcpt{background:var(--ink);border:1px solid var(--line);padding:16px;font-family:var(--mono);
+    font-size:12px;white-space:pre-wrap;color:#B9B5AD;max-height:320px;overflow:auto;line-height:1.55}
+  .acts{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap}
+  .ghost{border:1px solid var(--line-hi);background:none;color:var(--bone);padding:11px 16px;
+    cursor:pointer;font-family:var(--body);font-size:14px}
+  .ghost:hover{border-color:var(--copper);color:var(--copper)}
+
+  /* actual-size overlay */
+  .ovl{display:none;position:fixed;inset:0;z-index:90;background:var(--ink);flex-direction:column}
+  .ovl.on{display:flex}
+  .ovlbar{display:flex;align-items:center;justify-content:space-between;gap:14px;
+    padding:13px 20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .ovlbar b{font-family:var(--disp);font-size:18px;margin-right:10px}
+  .ovlbar em{font-family:var(--mono);font-size:12px;color:var(--steel);font-style:normal}
+  .ovlbody{flex:1;display:grid;place-items:center;padding:16px;overflow:auto;position:relative}
+  .warn{position:absolute;top:10px;left:50%;transform:translateX(-50%);font-family:var(--mono);
+    font-size:11.5px;color:var(--copper);text-align:center;max-width:92%}
+  .real{border-radius:50%;background-size:cover;background-position:center;background-color:var(--ink);
+    border:1px solid var(--steel);transform-origin:center}
+  .cal{display:none;border-top:1px solid var(--line);padding:18px 20px;background:var(--panel)}
+  .cal.on{display:block}
+  .cal p{margin:0 0 13px;font-size:14px;color:#B9B5AD;max-width:64ch}
+  .calcard{border:2px dashed var(--copper);margin-bottom:13px}
+  .cal input[type=range]{width:100%;max-width:470px;display:block;accent-color:var(--copper)}
+  .calrow{display:flex;align-items:center;gap:11px;margin-top:12px;flex-wrap:wrap}
+  .calrow em{font-family:var(--mono);font-size:12.5px;color:var(--steel);font-style:normal;min-width:120px}
+
+  footer{border-top:1px solid var(--line);padding:26px 0;color:var(--steel);font-size:12.5px}
+  footer .fin{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-family:var(--mono)}
+
+  :focus-visible{outline:2px solid var(--copper);outline-offset:2px}
+  button{font-family:var(--body);appearance:none;-webkit-appearance:none;-moz-appearance:none}
+
+  @media(max-width:940px){
+    .hero{grid-template-columns:1fr;gap:34px;padding:44px 0 34px}
+    .stack{width:min(100%,300px)}
+    .order{grid-template-columns:1fr}
+    .sum{position:static}
+    .toplink{display:none}
+  }
+  @media(max-width:540px){
+    .grid2{grid-template-columns:1fr}
+    .trio{grid-template-columns:1fr 1fr}
+    .kinds{flex-direction:column}
+    .facts{flex-direction:column}
+    .fact{border-right:none;border-bottom:1px solid var(--line)}
+    .fact:last-child{border-bottom:none}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{transition:none!important;scroll-behavior:auto!important}
+    .stack:hover .s1,.stack:hover .s2,.stack:hover .s3,.stack:hover .s4{transform:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap topin">
+    <a class="lockup" href="#top">
+      <img src="logo.png" alt="" />
+      <span><b>Ornament Forge</b><span>Design · Forge · Hang</span></span>
+    </a>
+    <a class="toplink" href="#order">Start an order</a>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+  <section class="hero">
+    <div>
+      <p class="kicker">Custom logo · printed to order</p>
+      <h1>Send a logo.<span class="ln2">Get it forged.</span></h1>
+      <p class="sub">We separate your artwork into solid color regions and print it as a layered
+         PETG ornament or medallion — one at a time, in Waxhaw, North Carolina.</p>
+      <div class="facts">
+        <div class="fact"><b>3″–9″</b><span>Sizes</span></div>
+        <div class="fact"><b>16</b><span>Colors max</span></div>
+        <div class="fact"><b>7–10 days</b><span>Print to ship</span></div>
+      </div>
+    </div>
+    <div class="stackwrap">
+      <div class="stack">
+        <div class="slab s1"></div>
+        <div class="slab s2"></div>
+        <div class="slab s3"></div>
+        <div class="slab s4"></div>
+        <img src="logo.png" alt="Ornament Forge medallion" />
+      </div>
+      <p class="stackcap">Every color prints as <b>its own layer</b></p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       GALLERY — stays hidden until you add photos.
+       To add: drop files into a folder called  img/  next to this
+       page, then add a line to the SHOTS array in the script at the
+       bottom, e.g.
+           { src:'img/tweetsie.jpg', name:'Tweetsie Railroad',
+             meta:'3" ornament · 10 colors' },
+       The section appears on its own once the array has entries.
+       ============================================================ -->
+  <section class="band" id="shop">
+    <div class="sechead"><span class="num">Recent</span><h2>From the shop</h2></div>
+    <div class="shots" id="shots"></div>
+  </section>
+</main>
+
+<section class="band">
+<div class="wrap order" id="order">
+  <div>
+    <div class="done" id="done">
+      <h2>Order received</h2>
+      <p class="st">QUEUED · nothing has been charged</p>
+      <ol class="steps">
+        <li><b>We check your artwork</b> — usually same day. If it won't print cleanly at your size, we email you before starting.</li>
+        <li><b>You get a total</b> with real USPS or UPS shipping to your ZIP, plus a link to pay.</li>
+        <li><b>We print and ship</b> within 7–10 days of payment, and send tracking.</li>
+      </ol>
+      <div class="paynote">
+        <h4>About the name on your payment</h4>
+        <p>Ornament Forge is a brand of <b>Romiri Design</b> (charlotteELF LLC). Venmo goes to
+           <b>@romiridesign3D</b> and card receipts read <b>Romiri Design</b>. Different name, same shop.</p>
+      </div>
+      <div class="rcpt" id="rcpt"></div>
+      <div class="acts">
+        <button class="ghost" id="copyBtn">Copy order details</button>
+        <button class="ghost" id="mailBtn">Open in email</button>
+        <button class="ghost" id="againBtn">Start another order</button>
+      </div>
+    </div>
+
+    <div id="form">
+      <div class="card">
+        <div class="ch"><span class="n">1</span><h3>Upload your logo</h3></div>
+        <p class="lede">PNG, JPG or SVG. We'll estimate the print colors as soon as it lands.</p>
+        <div class="drop" id="drop" tabindex="0" role="button" aria-label="Upload your logo">
+          <b>Drop your logo here</b><span>or tap to browse — 20 MB max</span>
+        </div>
+        <input type="file" id="file" accept=".png,.jpg,.jpeg,.svg,image/*" hidden />
+        <div class="got" id="got">
+          <img id="thumb" alt="Your logo" />
+          <span class="meta"><b id="fname"></b><span id="fsize"></span></span>
+          <button class="plain" id="rmFile">Remove</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ch"><span class="n">2</span><h3>Pick your print</h3></div>
+        <p class="lede">Ornaments come with a hanger tab. Medallions are flat, for stands and plaques.</p>
+        <div class="kinds">
+          <button class="kind" id="kOrn" data-p="ornament" aria-pressed="false">
+            <b>Ornament</b><span>hanger tab · 2 mm base</span></button>
+          <button class="kind" id="kMed" data-p="medallion" aria-pressed="true">
+            <b>Medallion</b><span>flat · 2.5–3 mm base</span></button>
+        </div>
+        <div class="sizes" id="sizes"></div>
+        <div style="display:flex;align-items:center;gap:14px;margin-top:18px">
+          <label class="mono" style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--steel)" for="qty">Quantity</label>
+          <span style="display:inline-flex;border:1px solid var(--line)">
+            <button id="qDown" aria-label="Fewer" style="width:38px;height:38px;background:var(--field);border:none;color:var(--bone);font-size:18px;cursor:pointer">–</button>
+            <input id="qty" type="number" value="1" min="1" max="999"
+                   style="width:52px;text-align:center;background:none;border:none;color:var(--bone);font-family:var(--mono);font-size:15px" />
+            <button id="qUp" aria-label="More" style="width:38px;height:38px;background:var(--field);border:none;color:var(--bone);font-size:18px;cursor:pointer">+</button>
+          </span>
+          <button class="ghost" id="realBtn" style="margin-left:auto;padding:9px 13px;font-size:13px">View at actual size</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ch"><span class="n">3</span><h3>Colors and artwork</h3></div>
+        <p class="lede">Each color prints as its own filament, so more colors means more machine
+           time and more filament changes. We confirm the final count when we check your file, and
+           tell you before you pay if it lands in a different band. The price never changes after payment.</p>
+        <div class="detected" id="detected" hidden>
+          <span id="detTxt"></span>
+          <span class="swatches" id="swatches"></span>
+        </div>
+        <div class="bands" id="bands"></div>
+
+        <label class="prep" id="prepBox">
+          <input type="checkbox" id="prep" />
+          <span class="t">
+            <b>Prepare my artwork</b>
+            <span>Clean logos with flat, solid colors are ready to print as they are. Photographs,
+                  gradients, drop shadows, scans and hand-drawn artwork have to be redrawn into solid
+                  color regions first. That's hand work — usually 30 to 60 minutes.</span>
+          </span>
+          <span class="fee">+$45</span>
+        </label>
+        <p class="prepnote" id="prepNote" hidden></p>
+        <p class="lede" style="margin:14px 0 0">Not sure? Leave it unticked. We'll look at your file
+           and tell you before you pay.</p>
+      </div>
+
+      <div class="card">
+        <div class="ch"><span class="n">4</span><h3>Where it ships</h3></div>
+        <div class="grid2">
+          <div class="fld wide"><label for="name">Full name <i>*</i></label><input id="name" autocomplete="name" /></div>
+          <div class="fld wide"><label for="street">Street address <i>*</i></label><input id="street" autocomplete="address-line1" /></div>
+          <div class="trio">
+            <div class="fld"><label for="city">City <i>*</i></label><input id="city" autocomplete="address-level2" /></div>
+            <div class="fld"><label for="state">State <i>*</i></label><input id="state" maxlength="2" placeholder="NC" autocomplete="address-level1" style="text-transform:uppercase" /></div>
+            <div class="fld"><label for="zip">ZIP <i>*</i></label><input id="zip" inputmode="numeric" autocomplete="postal-code" /></div>
+          </div>
+          <div class="fld"><label for="phone">Phone <i>*</i></label><input id="phone" type="tel" autocomplete="tel" /></div>
+          <div class="fld"><label for="email">Email <i>*</i></label><input id="email" type="email" autocomplete="email" /></div>
+          <div class="fld wide"><label for="carrier">Preferred carrier</label>
+            <select id="carrier"><option>No preference</option><option>USPS</option><option>UPS</option></select></div>
+          <div class="fld wide"><label for="notes">Notes</label>
+            <textarea id="notes" placeholder="Event date, deadline, color preferences…"></textarea></div>
+        </div>
+        <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
+          <label for="website">Website</label>
+          <input id="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <p class="err" id="err"></p>
+      </div>
+    </div>
+  </div>
+
+  <aside id="aside">
+    <div class="sum">
+      <div class="hd"><h3>Your order</h3><p>Shipping quoted after</p></div>
+      <div class="rows">
+        <div class="row"><span id="rItem">Medallion 5″</span><b id="rBase">$18</b></div>
+        <div class="row free" id="rowBand"><span id="rBandLbl">Colors 1–4</span><b id="rBand">included</b></div>
+        <div class="row off" id="rowPrep"><span>Artwork prep</span><b id="rPrep">$45</b></div>
+        <div class="row"><span>Quantity</span><b id="rQty">× 1</b></div>
+        <div class="row"><span>Logo file</span><b id="rFile">—</b></div>
+      </div>
+      <div class="tot"><span>Total</span><b id="rTot">$18</b></div>
+      <div class="disc">
+        <p><b>No payment today.</b> We check your artwork, quote real USPS or UPS shipping to your
+           ZIP, then email a total with a link to pay.</p>
+        <button class="go" id="send">Send my order</button>
+      </div>
+      <div style="height:20px"></div>
+    </div>
+  </aside>
+</div>
+</section>
+
+<footer><div class="wrap fin">
+  <span>Ornament Forge · a Romiri Design brand · charlotteELF LLC · Waxhaw, NC 28173</span>
+  <span>PETG · printed to order</span>
+</div></footer>
+
+<!-- actual size -->
+<div class="ovl" id="ovl" role="dialog" aria-modal="true" aria-label="Actual size">
+  <div class="ovlbar">
+    <div><b id="ovT"></b><em id="ovS"></em></div>
+    <div style="display:flex;gap:9px">
+      <button class="ghost" id="calBtn">Calibrate my screen</button>
+      <button class="ghost" id="ovClose">Close</button>
+    </div>
+  </div>
+  <div class="ovlbody">
+    <span class="warn" id="ovWarn"></span>
+    <div class="real" id="real"></div>
+  </div>
+  <div class="cal" id="cal">
+    <p>Screens don't tell websites their physical size, so this needs one measurement from you.
+       Hold any credit card or driver's licence flat against the screen and drag until the dashed
+       outline matches it. Every card of that type is the same size worldwide.</p>
+    <div class="calcard" id="calCard"></div>
+    <input type="range" id="calRange" min="60" max="220" step="0.5" value="96" />
+    <div class="calrow">
+      <em id="calVal"></em>
+      <button class="ghost" id="calDone">That matches</button>
+      <button class="ghost" id="calReset">Reset</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var SB_URL = "https://wslbzjkmywwbqqcojwcu.supabase.co";
+  var SB_KEY = "sb_publishable_XXDZiNl-O3MrI2-noLkc7g_H69TGNA2";
+  var BUCKET = "order-logos";
+  var LOGO   = "logo.png";
+  // Email alerts via Web3Forms — Pro plan. Paste the access key they
+  // email you between the quotes. Until then the page skips the alert —
+  // orders still save to Supabase.
+  //
+  // One-time setup in the Web3Forms dashboard for this access key:
+  //   1. Turn on "Autoresponder / Auto-Reply" and build the customer's
+  //      confirmation template. Web3Forms auto-detects the field named
+  //      "email" below as the send-to address for the autoresponder.
+  //   2. File attachments work automatically with the multipart request
+  //      below — no dashboard toggle needed, just an active Pro plan.
+  var W3F_KEY = "79179e05-e528-440f-9e10-bb499f06161a";
+
+  // Web3Forms' file attachment cap is 5 MB even on Pro (their "Advanced
+  // File Uploader" is needed to go higher, and we haven't wired that up).
+  // The order page itself accepts up to 20 MB, so anything over 5 MB
+  // skips the attachment and falls back to the Supabase link below —
+  // staff still get a working link either way.
+  var W3F_ATTACH_MAX = 5 * 1024 * 1024;
+
+  var $ = function(id){ return document.getElementById(id); };
+
+  /* ---- finished pieces. Add entries and the section appears. ---- */
+  var SHOTS = [
+    // { src:'img/tweetsie.jpg', name:'Tweetsie Railroad', meta:'3" ornament · 10 colors' },
+  ];
+  (function gallery(){
+    if(!SHOTS.length) return;
+    var box = $("shots");
+    SHOTS.forEach(function(s){
+      var d = document.createElement("div");
+      d.className = "shot";
+      d.innerHTML = '<img src="'+s.src+'" alt="'+s.name+'" loading="lazy"><div class="cap"><b>'+
+                    s.name+'</b><span>'+s.meta+'</span></div>';
+      box.appendChild(d);
+    });
+    $("shop").style.display = "block";
+  })();
+
+  /* ---- catalogue (mirrors the database; the database always wins) ---- */
+  var P = {
+    ornament:{ name:"Ornament", sizes:[{i:3,b:"2 mm",p:12},{i:4,b:"2 mm",p:15}] },
+    medallion:{ name:"Medallion", sizes:[
+      {i:5,b:"2.5 mm",p:18},{i:6,b:"2.5 mm",p:21},{i:7,b:"3.0 mm",p:24},
+      {i:8,b:"3.0 mm",p:27},{i:9,b:"3.0 mm",p:30}] }
+  };
+  var BANDS = [
+    { id:"1-4",   lo:1,  hi:4,  add:0,  label:"1–4 colors"   },
+    { id:"5-8",   lo:5,  hi:8,  add:5,  label:"5–8 colors"   },
+    { id:"9-12",  lo:9,  hi:12, add:10, label:"9–12 colors"  },
+    { id:"13-16", lo:13, hi:16, add:15, label:"13–16 colors" }
+  ];
+  var PREP_FEE = 45;
+
+  var st = { prod:"medallion", idx:0, qty:1, band:0, autoBand:-1, prep:false,
+             file:null, detected:null, url:LOGO };
+
+  function size(){ return P[st.prod].sizes[st.idx]; }
+
+  /* ---------- colour estimate from the upload ---------------------
+     Buckets pixels into a coarse grid and counts the ones that cover
+     a meaningful share of the artwork. A flat logo lands on a handful
+     of buckets; a photograph scatters across hundreds, which is the
+     signal that it needs redrawing by hand before it can print.     */
+  function analyze(img){
+    var N = 200, c = document.createElement("canvas");
+    c.width = N; c.height = N;
+    var x = c.getContext("2d", { willReadFrequently:true });
+    // nearest-neighbour: smoothing would invent blended shades that the
+    // artwork doesn't actually contain and inflate the count
+    x.imageSmoothingEnabled = false;
+    x.mozImageSmoothingEnabled = false;
+    x.webkitImageSmoothingEnabled = false;
+    var s = Math.min(N/img.width, N/img.height);
+    var w = Math.max(1, Math.round(img.width*s)), h = Math.max(1, Math.round(img.height*s));
+    x.drawImage(img, Math.floor((N-w)/2), Math.floor((N-h)/2), w, h);
+    var d;
+    try { d = x.getImageData(0,0,N,N).data; } catch(e){ return null; }
+
+    var bins = new Map(), opaque = 0, i, key;
+    for(i=0;i<d.length;i+=4){
+      if(d[i+3] < 130) continue;
+      opaque++;
+      key = ((d[i] & 248) << 16) | ((d[i+1] & 248) << 8) | (d[i+2] & 248);
+      bins.set(key, (bins.get(key) || 0) + 1);
+    }
+    if(opaque < 200) return null;
+
+    var raw = bins.size, list = [];
+    bins.forEach(function(n,k){ list.push([k,n]); });
+    list.sort(function(a,b){ return b[1] - a[1]; });
+    if(list.length > 600) list.length = 600;      // keeps this fast on photos
+
+    // merge near-identical shades so anti-aliased edges don't read as colors
+    var cen = [], wt = [], D2 = 60*60, j, hit, ww;
+    for(i=0;i<list.length;i++){
+      var k = list[i][0], n = list[i][1];
+      var cr = (k>>16) & 255, cg = (k>>8) & 255, cb = k & 255;
+      hit = -1;
+      for(j=0;j<cen.length;j++){
+        var dr = cen[j][0]-cr, dg = cen[j][1]-cg, db = cen[j][2]-cb;
+        if(dr*dr + dg*dg + db*db < D2){ hit = j; break; }
+      }
+      if(hit >= 0){
+        ww = wt[hit];
+        cen[hit][0] = (cen[hit][0]*ww + cr*n)/(ww+n);
+        cen[hit][1] = (cen[hit][1]*ww + cg*n)/(ww+n);
+        cen[hit][2] = (cen[hit][2]*ww + cb*n)/(ww+n);
+        wt[hit] = ww + n;
+      } else {
+        cen.push([cr,cg,cb]); wt.push(n);
+      }
+    }
+
+    var ord = wt.map(function(_,ix){ return ix; }).sort(function(a,b){ return wt[b]-wt[a]; });
+    var major = 0;
+    for(i=0;i<ord.length;i++) if(wt[ord[i]]/opaque >= 0.012) major++;
+
+    return {
+      count:    Math.max(1, Math.min(16, major)),
+      raw:      raw,
+      clusters: cen.length,
+      // a lot of distinct shades means gradients, shading or a photograph
+      strong:   raw > 1000 || cen.length > 20,
+      maybe:    raw > 500,
+      swatches: ord.slice(0,8).map(function(ix){
+        return "rgb(" + Math.round(cen[ix][0]) + "," + Math.round(cen[ix][1]) +
+               "," + Math.round(cen[ix][2]) + ")";
+      })
+    };
+  }
+  function bandFor(n){
+    for(var i=0;i<BANDS.length;i++) if(n <= BANDS[i].hi) return i;
+    return BANDS.length - 1;
+  }
+
+  /* ---------- rendering ---------- */
+  function drawSizes(){
+    var arr = P[st.prod].sizes, box = $("sizes");
+    box.innerHTML = "";
+    arr.forEach(function(s,n){
+      var b = document.createElement("button");
+      b.className = "sz"; b.type = "button";
+      b.setAttribute("aria-pressed", n===st.idx ? "true" : "false");
+      b.innerHTML = '<span class="i">'+s.i+'&Prime;</span><span class="b">'+s.b+
+                    ' base</span><span class="p">$'+s.p+'</span>';
+      b.onclick = function(){ st.idx = n; drawSizes(); total(); };
+      box.appendChild(b);
+    });
+  }
+  function drawBands(){
+    var box = $("bands");
+    box.innerHTML = "";
+    BANDS.forEach(function(bd,n){
+      var b = document.createElement("button");
+      b.className = "bnd" + (n===st.autoBand ? " auto" : "");
+      b.type = "button";
+      b.setAttribute("aria-pressed", n===st.band ? "true" : "false");
+      b.innerHTML = "<b>"+bd.label+"</b><span>"+(bd.add ? "+$"+bd.add+" each" : "included")+"</span>";
+      b.onclick = function(){ st.band = n; drawBands(); total(); };
+      box.appendChild(b);
+    });
+  }
+  function total(){
+    var s = size(), bd = BANDS[st.band];
+    var each = s.p + bd.add;
+    var sum  = each * st.qty + (st.prep ? PREP_FEE : 0);
+
+    $("rItem").textContent = P[st.prod].name + " " + s.i + "″";
+    $("rBase").textContent = "$" + s.p;
+    $("rBandLbl").textContent = "Colors " + bd.label.replace(" colors","");
+    $("rBand").textContent = bd.add ? "+$" + bd.add + " each" : "included";
+    $("rowBand").classList.toggle("free", !bd.add);
+    $("rowPrep").classList.toggle("off", !st.prep);
+    $("rQty").textContent = "× " + st.qty;
+    $("rFile").textContent = st.file ? "attached" : "—";
+    $("rFile").style.color = st.file ? "var(--ok)" : "";
+    $("rTot").textContent = "$" + sum;
+    if(!$("ovl").classList.contains("on")) return;
+    drawReal();
+  }
+
+  /* ---------- product + quantity ---------- */
+  function pick(p){
+    st.prod = p; st.idx = 0;
+    $("kOrn").setAttribute("aria-pressed", p==="ornament" ? "true":"false");
+    $("kMed").setAttribute("aria-pressed", p==="medallion" ? "true":"false");
+    drawSizes(); total();
+  }
+  $("kOrn").onclick = function(){ pick("ornament"); };
+  $("kMed").onclick = function(){ pick("medallion"); };
+  function setQty(v){
+    v = Math.max(1, Math.min(999, v || 1));
+    st.qty = v; $("qty").value = v; total();
+  }
+  $("qDown").onclick = function(){ setQty(st.qty-1); };
+  $("qUp").onclick   = function(){ setQty(st.qty+1); };
+  $("qty").oninput   = function(){ setQty(parseInt(this.value,10)); };
+
+  /* ---------- artwork prep ---------- */
+  $("prep").onchange = function(){
+    st.prep = this.checked;
+    $("prepBox").classList.toggle("on", st.prep);
+    total();
+  };
+
+  /* ---------- upload ---------- */
+  function human(b){
+    return b<1024 ? b+" B" : b<1048576 ? Math.round(b/1024)+" KB" : (b/1048576).toFixed(1)+" MB";
+  }
+  function take(f){
+    $("err").textContent = "";
+    if(!f) return;
+    if(f.size > 20*1024*1024){
+      $("err").textContent = "That file is over 20 MB. Compress it and try again.";
+      return;
+    }
+    st.file = f;
+    $("fname").textContent = f.name;
+    $("fsize").textContent = human(f.size);
+    $("got").classList.add("on");
+
+    if(/^image\//.test(f.type)){
+      var r = new FileReader();
+      r.onload = function(e){
+        st.url = e.target.result;
+        $("thumb").src = st.url;
+        $("thumb").style.display = "block";
+        var im = new Image();
+        im.onload = function(){
+          var a = analyze(im);
+          st.detected = a;
+          if(a){
+            st.autoBand = bandFor(a.count);
+            st.band = st.autoBand;
+            $("swatches").innerHTML = a.swatches.map(function(c){
+              return '<i style="background:'+c+'"></i>';
+            }).join("");
+            $("detected").hidden = false;
+
+            if(a.strong){
+              // shading, gradients or a photograph: this genuinely needs redrawing
+              $("detTxt").innerHTML = "This looks like <b>a photo or shaded artwork</b> " +
+                "rather than a flat logo";
+              $("prep").checked = true;
+              st.prep = true;
+              $("prepBox").classList.add("on");
+              $("prepNote").hidden = false;
+              $("prepNote").textContent =
+                "Artwork like this has to be redrawn into solid color regions before it can " +
+                "print, so we've ticked artwork prep. Untick it if you think the file is " +
+                "already flat — we check every file by hand and will tell you before you pay.";
+            } else {
+              $("detTxt").innerHTML = "Estimated <b>" + a.count + " print color" +
+                (a.count===1 ? "" : "s") + "</b> in your artwork";
+              if(a.maybe){
+                // borderline: say so, but never tick a charge on a guess
+                $("prepNote").hidden = false;
+                $("prepNote").textContent =
+                  "There's some soft shading or texture in this file. It may need prep work — " +
+                  "we'll check it by hand and tell you before you pay. Nothing added for now.";
+              } else {
+                $("prepNote").hidden = true;
+              }
+            }
+            drawBands();
+          }
+          total();
+        };
+        im.src = st.url;
+      };
+      r.readAsDataURL(f);
+    } else {
+      // SVG and anything else: no pixel estimate, so leave the band manual
+      $("thumb").style.display = "none";
+      st.url = LOGO;
+      $("detected").hidden = false;
+      $("detTxt").innerHTML = "We'll count the colors by hand when we open this file";
+      $("swatches").innerHTML = "";
+      total();
+    }
+  }
+  $("drop").onclick = function(){ $("file").click(); };
+  $("drop").onkeydown = function(e){
+    if(e.key==="Enter" || e.key===" "){ e.preventDefault(); $("file").click(); }
+  };
+  $("file").onchange = function(e){ take(e.target.files[0]); };
+  ["dragenter","dragover"].forEach(function(ev){
+    $("drop").addEventListener(ev, function(e){ e.preventDefault(); this.classList.add("over"); });
+  });
+  ["dragleave","drop"].forEach(function(ev){
+    $("drop").addEventListener(ev, function(e){ e.preventDefault(); this.classList.remove("over"); });
+  });
+  $("drop").addEventListener("drop", function(e){
+    if(e.dataTransfer.files[0]) take(e.dataTransfer.files[0]);
+  });
+  $("rmFile").onclick = function(){
+    st.file = null; st.detected = null; st.url = LOGO; st.autoBand = -1;
+    $("file").value = "";
+    $("got").classList.remove("on");
+    $("detected").hidden = true;
+    $("prepNote").hidden = true;
+    drawBands(); total();
+  };
+
+  /* ---------- actual size ---------- */
+  var CARD_IN = 3.370, PPI = 96;
+  try { var sv = localStorage.getItem("of_ppi"); if(sv) PPI = parseFloat(sv) || 96; } catch(e){}
+  function drawCard(){
+    $("calCard").style.width  = (CARD_IN*PPI) + "px";
+    $("calCard").style.height = (2.125*PPI) + "px";
+    $("calVal").textContent   = PPI.toFixed(1) + " px per inch";
+    $("calRange").value = PPI;
+  }
+  function drawReal(){
+    var s = size(), el = $("real"), need = s.i * PPI;
+    el.style.backgroundImage = "url('" + st.url + "')";
+    el.style.width = need + "px"; el.style.height = need + "px";
+    var avail = Math.min(window.innerWidth - 40,
+                         window.innerHeight - ($("cal").classList.contains("on") ? 330 : 140));
+    if(need > avail){
+      var k = avail / need;
+      el.style.transform = "scale(" + k + ")";
+      $("ovWarn").textContent = "Your screen isn't physically big enough for " + s.i +
+        "″ — shown at " + Math.round(k*100) + "%.";
+    } else {
+      el.style.transform = "none";
+      $("ovWarn").textContent = "";
+    }
+    $("ovT").textContent = P[st.prod].name + " " + s.i + "″";
+    $("ovS").textContent = Math.round(s.i*25.4) + " mm across · " + s.b + " base";
+  }
+  $("realBtn").onclick = function(){ $("ovl").classList.add("on"); drawCard(); drawReal(); };
+  $("ovClose").onclick = function(){ $("ovl").classList.remove("on"); };
+  $("calBtn").onclick  = function(){ $("cal").classList.toggle("on"); drawCard(); drawReal(); };
+  $("calDone").onclick = function(){ $("cal").classList.remove("on"); drawReal(); };
+  $("calRange").oninput = function(){
+    PPI = parseFloat(this.value);
+    try { localStorage.setItem("of_ppi", String(PPI)); } catch(e){}
+    drawCard(); drawReal();
+  };
+  $("calReset").onclick = function(){
+    PPI = 96;
+    try { localStorage.removeItem("of_ppi"); } catch(e){}
+    drawCard(); drawReal();
+  };
+  window.addEventListener("keydown", function(e){
+    if(e.key === "Escape") $("ovl").classList.remove("on");
+  });
+  window.addEventListener("resize", function(){
+    if($("ovl").classList.contains("on")) drawReal();
+  });
+
+  /* ---------- submit ---------- */
+  var NEED = [["name","Name"],["street","Street address"],["city","City"],["state","State"],
+              ["zip","ZIP"],["phone","Phone"],["email","Email"]];
+  function check(){
+    for(var i=0;i<NEED.length;i++){
+      if(!$(NEED[i][0]).value.trim()) return NEED[i][1] + " is required.";
+    }
+    if(!/^\S+@\S+\.\S+$/.test($("email").value.trim())) return "Enter a valid email address.";
+    if(!/^\d{5}(-\d{4})?$/.test($("zip").value.trim()))  return "Enter a valid 5-digit ZIP.";
+    if(!st.file) return "Upload your logo first.";
+    return null;
+  }
+  function ref(){
+    var d = new Date(), p = function(n){ return String(n).padStart(2,"0"); };
+    return "OF-" + d.getFullYear() + p(d.getMonth()+1) + p(d.getDate()) + "-" +
+           Math.random().toString(36).slice(2,6).toUpperCase();
+  }
+  function hdr(extra){
+    var h = { apikey: SB_KEY, Authorization: "Bearer " + SB_KEY };
+    for(var k in extra) h[k] = extra[k];
+    return h;
+  }
+  function receiptText(r){
+    var s = size(), bd = BANDS[st.band];
+    var each = s.p + bd.add, sum = each*st.qty + (st.prep ? PREP_FEE : 0);
+    var L = [
+      "ORNAMENT FORGE — ORDER " + r,
+      "----------------------------------------",
+      "Product     : " + P[st.prod].name + " " + s.i + '" (base ' + s.b + ")",
+      "Colors      : " + bd.label + (bd.add ? "  +$"+bd.add+" each" : "  (included)"),
+      "Quantity    : " + st.qty,
+      "Per piece   : $" + each
+    ];
+    if(st.prep) L.push("Artwork prep: $" + PREP_FEE + " (one-off)");
+    L.push("Item total  : $" + sum + "   (shipping quoted separately)");
+    L.push("Logo file   : " + st.file.name);
+    if(st.detected) L.push("Auto-estimate: about " + st.detected.count + " colors");
+    L.push("", "SHIP TO",
+      "Name    : " + $("name").value.trim(),
+      "Address : " + $("street").value.trim(),
+      "          " + $("city").value.trim() + ", " + $("state").value.trim().toUpperCase() +
+        " " + $("zip").value.trim(),
+      "Phone   : " + $("phone").value.trim(),
+      "Email   : " + $("email").value.trim(),
+      "Carrier : " + $("carrier").value,
+      "Notes   : " + ($("notes").value.trim() || "—"),
+      "",
+      "NEXT STEPS",
+      "1. We check the artwork and confirm the color count.",
+      "2. We email a total including real USPS/UPS shipping to " + $("zip").value.trim() + ".",
+      "3. Pay by Venmo (@romiridesign3D) or card link.",
+      "4. Print-to-ship 7-10 days after payment. Tracking emailed.",
+      "",
+      "Ornament Forge is a brand of Romiri Design (charlotteELF LLC),",
+      "Waxhaw NC 28173. Payments show as Romiri Design.");
+    return L.join("\n");
+  }
+
+  var receipt = "";
+  $("send").onclick = function(){
+    if($("website").value) return;                 // honeypot
+    var bad = check();
+    $("err").textContent = bad || "";
+    if(bad){ $("err").scrollIntoView({behavior:"smooth",block:"center"}); return; }
+
+    var btn = this;
+    btn.disabled = true; btn.textContent = "Sending…";
+
+    var r = ref(), s = size();
+    var safe = st.file.name.replace(/[^A-Za-z0-9._-]/g,"_").slice(-80);
+    var path = r + "/" + safe;
+
+    fetch(SB_URL + "/storage/v1/object/" + BUCKET + "/" + encodeURI(path), {
+      method:"POST",
+      headers: hdr({ "Content-Type": st.file.type || "application/octet-stream", "x-upsert":"false" }),
+      body: st.file
+    })
+    .then(function(res){
+      if(!res.ok) return res.text().then(function(t){ throw new Error("Logo upload failed. "+t); });
+      return fetch(SB_URL + "/rest/v1/orders", {
+        method:"POST",
+        headers: hdr({ "Content-Type":"application/json", Prefer:"return=minimal" }),
+        body: JSON.stringify({
+          order_ref:       r,
+          product:         st.prod,
+          size_in:         s.i,
+          qty:             st.qty,
+          color_band:      BANDS[st.band].id,
+          detected_colors: st.detected ? st.detected.count : null,
+          artwork_prep:    st.prep,
+          logo_path:       path,
+          logo_name:       st.file.name,
+          customer_name:   $("name").value.trim(),
+          street:          $("street").value.trim(),
+          city:            $("city").value.trim(),
+          state:           $("state").value.trim().toUpperCase(),
+          zip:             $("zip").value.trim(),
+          phone:           $("phone").value.trim(),
+          email:           $("email").value.trim(),
+          carrier:         $("carrier").value,
+          notes:           $("notes").value.trim() || null
+        })
+      });
+    })
+    .then(function(res){
+      if(!res.ok) return res.text().then(function(t){ throw new Error("Could not save the order. "+t); });
+      receipt = receiptText(r);
+
+      // Public link to the uploaded photo — a fallback for files over
+      // Web3Forms' 5 MB attachment cap. Requires the "order-logos" bucket
+      // to have public read access turned on (Supabase Studio > Storage >
+      // order-logos > toggle "Public bucket"). The path itself is
+      // unguessable (random order ref), so this doesn't expose a
+      // directory listing of every customer's file.
+      var photoUrl = SB_URL + "/storage/v1/object/public/" + BUCKET + "/" + encodeURI(path);
+
+      // Email via Web3Forms (Pro plan). Deliberately fire-and-forget and
+      // AFTER the order is safely stored: if the alert service is down or
+      // over its monthly quota, the order is still saved either way.
+      //
+      // Sent as multipart/form-data (not JSON) so the actual logo file can
+      // ride along as a real attachment — this is what makes attachments
+      // work at all; Web3Forms silently can't attach anything from a JSON
+      // body. The "email" field below is also what triggers their
+      // Autoresponder to confirm the order with the customer, once that's
+      // turned on for this access key in the Web3Forms dashboard.
+      if(W3F_KEY.indexOf("YOUR_ACCESS_KEY") === -1){
+        var s2 = size(), bd2 = BANDS[st.band];
+        var fd = new FormData();
+        fd.append("access_key", W3F_KEY);
+        fd.append("subject", "Ornament Forge order " + r + " — " + $("name").value.trim());
+        fd.append("from_name", "Ornament Forge orders");
+        fd.append("name", $("name").value.trim());          // used by the autoresponder template
+        fd.append("email", $("email").value.trim());        // triggers the autoresponder to the customer
+        fd.append("replyto", $("email").value.trim());      // staff replies go to the customer
+        fd.append("order", r);
+        fd.append("item", P[st.prod].name + " " + s2.i + '" x' + st.qty);
+        fd.append("colors", bd2.label + (st.prep ? "  + ARTWORK PREP ($45)" : ""));
+        fd.append("total", "$" + ((s2.p + bd2.add) * st.qty + (st.prep ? PREP_FEE : 0)) + " before shipping");
+        fd.append("ship_to", $("name").value.trim() + ", " + $("street").value.trim() + ", " +
+                   $("city").value.trim() + " " + $("state").value.trim().toUpperCase() +
+                   " " + $("zip").value.trim());
+        fd.append("phone", $("phone").value.trim());
+        fd.append("carrier", $("carrier").value);
+        fd.append("logo_file", st.file.name);
+        fd.append("photo_link", photoUrl);
+        fd.append("details", receipt);
+        if(st.file.size <= W3F_ATTACH_MAX){
+          fd.append("attachment", st.file, st.file.name);
+        } else {
+          fd.append("attachment_note", "Logo is over the 5 MB attachment limit — use the photo_link above.");
+        }
+        // No Content-Type header here on purpose: the browser sets the
+        // correct multipart boundary itself. Setting it manually breaks
+        // the upload (per Web3Forms' own docs).
+        fetch("https://api.web3forms.com/submit", {
+          method:"POST",
+          headers:{ Accept:"application/json" },
+          body: fd
+        }).catch(function(){ /* alert failed; the order is already saved */ });
+      }
+
+      $("rcpt").textContent = receipt;
+      $("form").style.display = "none";
+      $("aside").style.display = "none";
+      $("done").classList.add("on");
+      $("done").scrollIntoView({behavior:"smooth",block:"start"});
+    })
+    .catch(function(e){
+      $("err").textContent = e.message +
+        " Nothing was charged. Try again, or email order@ornamentforge.com and we'll take it from there.";
+      $("err").scrollIntoView({behavior:"smooth",block:"center"});
+      btn.disabled = false; btn.textContent = "Send my order";
+    });
+  };
+
+  $("copyBtn").onclick = function(){
+    var b = this;
+    navigator.clipboard.writeText(receipt).then(function(){
+      b.textContent = "Copied";
+      setTimeout(function(){ b.textContent = "Copy order details"; }, 1600);
+    }, function(){ b.textContent = "Copy failed"; });
+  };
+  $("mailBtn").onclick = function(){
+    window.location.href = "mailto:order@ornamentforge.com?subject=" +
+      encodeURIComponent("New Ornament Forge order") + "&body=" +
+      encodeURIComponent(receipt + "\n\n(Attach your logo file to this email.)");
+  };
+  $("againBtn").onclick = function(){
+    $("done").classList.remove("on");
+    $("form").style.display = "block";
+    $("aside").style.display = "block";
+    window.scrollTo({ top:0, behavior:"smooth" });
+  };
+
+  drawSizes(); drawBands(); total();
+})();
+</script>
+</body>
+</html>
