@@ -82,7 +82,9 @@
   .stack .s2{background:var(--copper)}
   .stack .s3{background:var(--steel)}
   .stack .s4{background:var(--bone)}
-  .stack img{position:relative;width:100%;height:100%;display:block;z-index:5}
+  .stack img{position:relative;width:100%;height:100%;display:block;z-index:5;
+    border-radius:50%;object-fit:cover;background:var(--panel);
+    transition:opacity .5s ease}
   /* resting: layers peek out below-right. hover: they fan apart */
   .stack .s1{transform:translate(30px,30px)}
   .stack .s2{transform:translate(22px,22px)}
@@ -328,7 +330,7 @@
         <div class="slab s2"></div>
         <div class="slab s3"></div>
         <div class="slab s4"></div>
-        <img src="logo.png" alt="Ornament Forge medallion" />
+        <img id="heroImg" src="img/hero-1.jpg" alt="A finished Ornament Forge medallion" />
       </div>
       <p class="stackcap">Every color prints as <b>its own layer</b></p>
     </div>
@@ -543,6 +545,32 @@
   var W3F_ATTACH_MAX = 5 * 1024 * 1024;
 
   var $ = function(id){ return document.getElementById(id); };
+
+  /* ---- hero photo rotation. Cross-fades through real finished prints
+     instead of a static logo. Add or remove entries here — the img
+     files live in the img/ folder next to this page. ---- */
+  var HERO_SHOTS = [
+    "img/hero-1.jpg",
+    "img/hero-2.jpg",
+    "img/hero-3.jpg",
+    "img/hero-4.jpg",
+    "img/hero-5.jpg",
+    "img/hero-6.jpg"
+  ];
+  (function heroCycle(){
+    var img = $("heroImg");
+    if(!img || HERO_SHOTS.length < 2) return;
+    HERO_SHOTS.forEach(function(src){ (new Image()).src = src; }); // preload, avoids a flash on swap
+    var i = 0;
+    setInterval(function(){
+      i = (i + 1) % HERO_SHOTS.length;
+      img.style.opacity = 0;
+      setTimeout(function(){
+        img.src = HERO_SHOTS[i];
+        img.style.opacity = 1;
+      }, 500);
+    }, 4000);
+  })();
 
   /* ---- finished pieces. Add entries and the section appears. ---- */
   var SHOTS = [
